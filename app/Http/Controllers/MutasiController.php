@@ -12,7 +12,8 @@ class MutasiController extends Controller
      */
     public function index()
     {
-        //
+        $mutasis = Mutasi::with(['user', 'barang'])->get();
+        return response()->json($mutasis);
     }
 
     /**
@@ -28,7 +29,16 @@ class MutasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tanggal' => 'required|date',
+            'jenis_mutasi' => 'required|string',
+            'jumlah' => 'required|integer',
+            'user_id' => 'required|exists:users,id',
+            'barang_id' => 'required|exists:barangs,id',
+        ]);
+
+        $mutasi = Mutasi::create($request->all());
+        return response()->json($mutasi, 201);
     }
 
     /**
@@ -36,7 +46,8 @@ class MutasiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $mutasi = Mutasi::with(['user', 'barang'])->findOrFail($id);
+        return response()->json($mutasi);
     }
 
     /**
@@ -52,7 +63,18 @@ class MutasiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $mutasi = Mutasi::findOrFail($id);
+
+        $request->validate([
+            'tanggal' => 'sometimes|required|date',
+            'jenis_mutasi' => 'sometimes|required|string',
+            'jumlah' => 'sometimes|required|integer',
+            'user_id' => 'sometimes|required|exists:users,id',
+            'barang_id' => 'sometimes|required|exists:barangs,id',
+        ]);
+
+        $mutasi->update($request->all());
+        return response()->json($mutasi);
     }
 
     /**
@@ -60,7 +82,10 @@ class MutasiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $mutasi = Mutasi::findOrFail($id);
+        $mutasi->delete();
+
+        return response()->json(['message' => 'Mutasi deleted successfully']);
     }
 
     /**

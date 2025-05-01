@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Barang;
 
 class BarangController extends Controller
 {
@@ -11,7 +12,8 @@ class BarangController extends Controller
      */
     public function index()
     {
-        //
+        $barangs = Barang::all();
+        return response()->json($barangs);
     }
 
     /**
@@ -27,7 +29,15 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'kode' => 'required|string|unique:barangs,kode',
+            'kategori' => 'required|string',
+            'lokasi' => 'required|string',
+        ]);
+
+        $barang = Barang::create($request->all());
+        return response()->json($barang, 201);
     }
 
     /**
@@ -35,7 +45,8 @@ class BarangController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $barang = Barang::findOrFail($id);
+        return response()->json($barang);
     }
 
     /**
@@ -51,7 +62,17 @@ class BarangController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $barang = Barang::findOrFail($id);
+
+        $request->validate([
+            'nama_barang' => 'sometimes|required|string|max:255',
+            'kode' => 'sometimes|required|string|unique:barangs,kode,' . $barang->id,
+            'kategori' => 'sometimes|required|string',
+            'lokasi' => 'sometimes|required|string',
+        ]);
+
+        $barang->update($request->all());
+        return response()->json($barang);
     }
 
     /**
@@ -59,6 +80,9 @@ class BarangController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $barang = Barang::findOrFail($id);
+        $barang->delete();
+
+        return response()->json(['message' => 'Barang deleted successfully']);
     }
 }
