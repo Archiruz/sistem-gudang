@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Barang;
+use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
@@ -15,7 +14,9 @@ class BarangController extends Controller
         $barangs = Barang::all();
         return response()->json([
             'status' => 'success',
-            'data' => $barangs
+            'data'   => [
+                'barangs' => $barangs,
+            ],
         ]);
     }
 
@@ -34,15 +35,17 @@ class BarangController extends Controller
     {
         $request->validate([
             'nama_barang' => 'required|string|max:255',
-            'kode' => 'required|string|unique:barangs,kode',
-            'kategori' => 'required|string',
-            'lokasi' => 'required|string',
+            'kode'        => 'required|string|unique:barangs,kode',
+            'kategori'    => 'required|string',
+            'lokasi'      => 'required|string',
         ]);
 
         $barang = Barang::create($request->all());
         return response()->json([
             'status' => 'success',
-            'data' => $barang
+            'data'   => [
+                'barang' => $barang,
+            ],
         ], 201);
     }
 
@@ -54,7 +57,9 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
         return response()->json([
             'status' => 'success',
-            'data' => $barang
+            'data'   => [
+                'barang' => $barang,
+            ],
         ]);
     }
 
@@ -75,15 +80,17 @@ class BarangController extends Controller
 
         $request->validate([
             'nama_barang' => 'sometimes|required|string|max:255',
-            'kode' => 'sometimes|required|string|unique:barangs,kode,' . $barang->id,
-            'kategori' => 'sometimes|required|string',
-            'lokasi' => 'sometimes|required|string',
+            'kode'        => 'sometimes|required|string|unique:barangs,kode,' . $barang->id,
+            'kategori'    => 'sometimes|required|string',
+            'lokasi'      => 'sometimes|required|string',
         ]);
 
         $barang->update($request->all());
         return response()->json([
             'status' => 'success',
-            'data' => $barang
+            'data'   => [
+                'barang' => $barang,
+            ],
         ]);
     }
 
@@ -96,10 +103,9 @@ class BarangController extends Controller
         $barang->delete();
 
         return response()->json([
-            'status' => 'success',
-            'data' => [
-                'message' => 'Barang deleted successfully'
-            ]
+            'status'  => 'success',
+            'data'    => null,
+            'message' => 'Barang deleted successfully',
         ]);
     }
 }

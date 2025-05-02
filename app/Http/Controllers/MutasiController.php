@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Mutasi;
+use Illuminate\Http\Request;
 
 class MutasiController extends Controller
 {
@@ -15,7 +14,9 @@ class MutasiController extends Controller
         $mutasis = Mutasi::with(['user', 'barang'])->get();
         return response()->json([
             'status' => 'success',
-            'data' => $mutasis
+            'data'   => [
+                'mutasis' => $mutasis,
+            ],
         ]);
     }
 
@@ -33,18 +34,20 @@ class MutasiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal' => 'required|date',
+            'tanggal'      => 'required|date',
             'jenis_mutasi' => 'required|string',
-            'jumlah' => 'required|integer',
-            'user_id' => 'required|exists:users,id',
-            'barang_id' => 'required|exists:barangs,id',
-            'keterangan' => 'nullable|string',
+            'jumlah'       => 'required|integer',
+            'user_id'      => 'required|exists:users,id',
+            'barang_id'    => 'required|exists:barangs,id',
+            'keterangan'   => 'nullable|string',
         ]);
 
         $mutasi = Mutasi::create($request->all());
         return response()->json([
             'status' => 'success',
-            'data' => $mutasi
+            'data'   => [
+                'mutasi' => $mutasi,
+            ],
         ], 201);
     }
 
@@ -56,7 +59,9 @@ class MutasiController extends Controller
         $mutasi = Mutasi::with(['user', 'barang'])->findOrFail($id);
         return response()->json([
             'status' => 'success',
-            'data' => $mutasi
+            'data'   => [
+                'mutasi' => $mutasi,
+            ],
         ]);
     }
 
@@ -76,18 +81,20 @@ class MutasiController extends Controller
         $mutasi = Mutasi::findOrFail($id);
 
         $request->validate([
-            'tanggal' => 'sometimes|required|date',
+            'tanggal'      => 'sometimes|required|date',
             'jenis_mutasi' => 'sometimes|required|string',
-            'jumlah' => 'sometimes|required|integer',
-            'keterangan' => 'sometimes|nullable|string',
-            'user_id' => 'sometimes|required|exists:users,id',
-            'barang_id' => 'sometimes|required|exists:barangs,id',
+            'jumlah'       => 'sometimes|required|integer',
+            'keterangan'   => 'sometimes|nullable|string',
+            'user_id'      => 'sometimes|required|exists:users,id',
+            'barang_id'    => 'sometimes|required|exists:barangs,id',
         ]);
 
         $mutasi->update($request->all());
         return response()->json([
             'status' => 'success',
-            'data' => $mutasi
+            'data'   => [
+                'mutasi' => $mutasi,
+            ],
         ]);
     }
 
@@ -100,10 +107,9 @@ class MutasiController extends Controller
         $mutasi->delete();
 
         return response()->json([
-            'status' => 'success',
-            'data' => [
-                'message' => 'Mutasi deleted successfully'
-            ]
+            'status'  => 'success',
+            'data'    => null,
+            'message' => 'Mutasi deleted successfully',
         ]);
     }
 
@@ -115,7 +121,9 @@ class MutasiController extends Controller
         $mutasi = Mutasi::where('barang_id', $barangId)->with('user')->get();
         return response()->json([
             'status' => 'success',
-            'data' => $mutasi
+            'data'   => [
+                'mutasi' => $mutasi,
+            ],
         ]);
     }
 
@@ -127,7 +135,9 @@ class MutasiController extends Controller
         $mutasi = Mutasi::where('user_id', $userId)->with('barang')->get();
         return response()->json([
             'status' => 'success',
-            'data' => $mutasi
+            'data'   => [
+                'mutasi' => $mutasi,
+            ],
         ]);
     }
 }
