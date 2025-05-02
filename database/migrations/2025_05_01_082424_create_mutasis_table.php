@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('jenis_mutasi');
             $table->integer('jumlah');
+            $table->text('keterangan')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('barang_id')->constrained('barangs')->onDelete('cascade');
             $table->timestamps();

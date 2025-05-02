@@ -38,6 +38,7 @@ class MutasiController extends Controller
             'jumlah' => 'required|integer',
             'user_id' => 'required|exists:users,id',
             'barang_id' => 'required|exists:barangs,id',
+            'keterangan' => 'nullable|string',
         ]);
 
         $mutasi = Mutasi::create($request->all());
@@ -78,6 +79,7 @@ class MutasiController extends Controller
             'tanggal' => 'sometimes|required|date',
             'jenis_mutasi' => 'sometimes|required|string',
             'jumlah' => 'sometimes|required|integer',
+            'keterangan' => 'sometimes|nullable|string',
             'user_id' => 'sometimes|required|exists:users,id',
             'barang_id' => 'sometimes|required|exists:barangs,id',
         ]);
