@@ -7,7 +7,8 @@ Job application technical test for ID Grow by PT. Clavata Extra Sukses.
   - [Overview](#overview)
   - [Pre-requisite](#pre-requisite)
   - [Environment Setup](#environment-setup)
-  - [How to Run](#how-to-run)
+  - [How to Run with Laravel Sail/Docker (Tested on Windows with WSL2)](#how-to-run-with-laravel-saildocker-tested-on-windows-with-wsl2)
+  - [How to Run on Windows](#how-to-run-on-windows)
   - [Postman Documentation](#postman-documentation)
   - [Troubleshooting](#troubleshooting)
   - [Contribution Guidelines](#contribution-guidelines)
@@ -18,36 +19,37 @@ This project is made with Laravel 12 + Livewire starter kit. The project should 
 
 ## Pre-requisite
 1. PHP (>= 8.0)
-2. Composer (>= 2.0)
-3. Docker (Make sure Docker Engine is running)
+2. NodeJs
+3. Composer (>= 2.0)
+4. Docker (Make sure Docker Engine is running)
+5. XAMPP (for Windows)
 
 ## Environment Setup
 1. Copy the `.env.example` file to `.env`:
    ```bash
    cp .env.example .env
    ```
-2. Configure the database credentials in the `.env` file:
+2. (Optional) Configure the database credentials in the `.env` file:
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
    DB_PORT=3306
    DB_DATABASE=sistem_gudang
    DB_USERNAME=root
-   DB_PASSWORD=your_password
+   DB_PASSWORD=
    ```
 
-## How to Run
+## How to Run with Laravel Sail/Docker (Tested on Windows with WSL2)
 1. Clone this repository:
    ```bash
    git clone https://github.com/Archiruz/sistem-gudang.git
+   cd sistem-gudang
    ```
 2. Install dependencies:
    ```bash
    php composer install
-   ```
-   If an error appears (Windows issue), try running:
-   ```bash
-   php composer install --ignore-platform-reqs
+   npm install
+   npm run build
    ```
 3. Start the project:
    ```bash
@@ -58,6 +60,29 @@ This project is made with Laravel 12 + Livewire starter kit. The project should 
    ./vendor/bin/sail artisan migrate --seed
    ```
 5. Open [localhost](http://localhost/) in the browser or test the API with Postman.
+
+## How to Run on Windows  
+Make sure XAMPP (Apache and MySQL server) is running
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/Archiruz/sistem-gudang.git
+   cd sistem-gudang
+   ```
+2. Install dependencies:
+   ```bash
+   php composer install
+   npm install
+   npm run build
+   ```
+3. Run migration
+   ```bash
+   php artisan migrate --seed
+   ```
+4. Start the project:
+   ```bash
+   php artisan serve
+   ```
+
 
 ## Postman Documentation
 [Link to Postman Documentation](https://documenter.getpostman.com/view/37965377/2sB2j4fWiz)
