@@ -13,7 +13,10 @@ class MutasiController extends Controller
     public function index()
     {
         $mutasis = Mutasi::with(['user', 'barang'])->get();
-        return response()->json($mutasis);
+        return response()->json([
+            'status' => 'success',
+            'data' => $mutasis
+        ]);
     }
 
     /**
@@ -38,7 +41,10 @@ class MutasiController extends Controller
         ]);
 
         $mutasi = Mutasi::create($request->all());
-        return response()->json($mutasi, 201);
+        return response()->json([
+            'status' => 'success',
+            'data' => $mutasi
+        ], 201);
     }
 
     /**
@@ -47,7 +53,10 @@ class MutasiController extends Controller
     public function show(string $id)
     {
         $mutasi = Mutasi::with(['user', 'barang'])->findOrFail($id);
-        return response()->json($mutasi);
+        return response()->json([
+            'status' => 'success',
+            'data' => $mutasi
+        ]);
     }
 
     /**
@@ -74,7 +83,10 @@ class MutasiController extends Controller
         ]);
 
         $mutasi->update($request->all());
-        return response()->json($mutasi);
+        return response()->json([
+            'status' => 'success',
+            'data' => $mutasi
+        ]);
     }
 
     /**
@@ -85,7 +97,12 @@ class MutasiController extends Controller
         $mutasi = Mutasi::findOrFail($id);
         $mutasi->delete();
 
-        return response()->json(['message' => 'Mutasi deleted successfully']);
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'message' => 'Mutasi deleted successfully'
+            ]
+        ]);
     }
 
     /**
@@ -94,7 +111,10 @@ class MutasiController extends Controller
     public function historyByBarang($barangId)
     {
         $mutasi = Mutasi::where('barang_id', $barangId)->with('user')->get();
-        return response()->json($mutasi);
+        return response()->json([
+            'status' => 'success',
+            'data' => $mutasi
+        ]);
     }
 
     /**
@@ -103,6 +123,9 @@ class MutasiController extends Controller
     public function historyByUser($userId)
     {
         $mutasi = Mutasi::where('user_id', $userId)->with('barang')->get();
-        return response()->json($mutasi);
+        return response()->json([
+            'status' => 'success',
+            'data' => $mutasi
+        ]);
     }
 }

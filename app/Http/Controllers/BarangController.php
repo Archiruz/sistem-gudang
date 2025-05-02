@@ -13,7 +13,10 @@ class BarangController extends Controller
     public function index()
     {
         $barangs = Barang::all();
-        return response()->json($barangs);
+        return response()->json([
+            'status' => 'success',
+            'data' => $barangs
+        ]);
     }
 
     /**
@@ -37,7 +40,10 @@ class BarangController extends Controller
         ]);
 
         $barang = Barang::create($request->all());
-        return response()->json($barang, 201);
+        return response()->json([
+            'status' => 'success',
+            'data' => $barang
+        ], 201);
     }
 
     /**
@@ -46,7 +52,10 @@ class BarangController extends Controller
     public function show(string $id)
     {
         $barang = Barang::findOrFail($id);
-        return response()->json($barang);
+        return response()->json([
+            'status' => 'success',
+            'data' => $barang
+        ]);
     }
 
     /**
@@ -72,7 +81,10 @@ class BarangController extends Controller
         ]);
 
         $barang->update($request->all());
-        return response()->json($barang);
+        return response()->json([
+            'status' => 'success',
+            'data' => $barang
+        ]);
     }
 
     /**
@@ -83,6 +95,11 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
         $barang->delete();
 
-        return response()->json(['message' => 'Barang deleted successfully']);
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'message' => 'Barang deleted successfully'
+            ]
+        ]);
     }
 }
